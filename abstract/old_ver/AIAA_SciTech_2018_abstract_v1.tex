@@ -1,0 +1,184 @@
+% `template.tex', a bare-bones example employing the AIAA class.
+%
+% For a more advanced example that makes use of several third-party
+% LaTeX packages, see `advanced_example.tex', but please read the
+% Known Problems section of the users manual first.
+%
+% Typical processing for PostScript (PS) output:
+%
+%  latex template
+%  latex template   (repeat as needed to resolve references)
+%
+%  xdvi template    (onscreen draft display)
+%  dvips template   (postscript)
+%  gv template.ps   (onscreen display)
+%  lpr template.ps  (hardcopy)
+%
+% With the above, only Encapsulated PostScript (EPS) images can be used.
+%
+% Typical processing for Portable Document Format (PDF) output:
+%
+%  pdflatex template
+%  pdflatex template      (repeat as needed to resolve references)
+%
+%  acroread template.pdf  (onscreen display)
+%
+% If you have EPS figures, you will need to use the epstopdf script
+% to convert them to PDF because PDF is a limmited subset of EPS.
+% pdflatex accepts a variety of other image formats such as JPG, TIF,
+% PNG, and so forth -- check the documentation for your version.
+%
+% If you do *not* specify suffixes when using the graphicx package's
+% \includegraphics command, latex and pdflatex will automatically select
+% the appropriate figure format from those available.  This allows you
+% to produce PS and PDF output from the same LaTeX source file.
+%
+% To generate a large format (e.g., 11"x17") PostScript copy for editing
+% purposes, use
+%
+%  dvips -x 1467 -O -0.65in,0.85in -t tabloid template
+%
+% For further details and support, read the Users Manual, aiaa.pdf.
+
+
+% Try to reduce the number of latex support calls from people who
+% don't read the included documentation.
+%
+\typeout{}\typeout{If latex fails to find aiaa-tc, read the README file!}
+%
+
+
+\documentclass[]{aiaa-tc}% insert '[draft]' option to show overfull boxes
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[space]{grffile}
+\usepackage{subfig}
+\usepackage{wrapfig}%   wrap figures/tables in text (i.e., Di Vinci style)
+\usepackage{multicol}
+
+ \title{Development of an RDC test stand with variable injection schemes at TU Berlin}
+
+ \author{
+  Richard Bluemner%
+    \thanks{Doctoral Researcher, ISTA, Müller-Breslau-Str. 8, Berlin.}
+  , Myles D. Bohon%
+  	\thanks{Post Doctoral Researcher, ISTA, Müller-Breslau-Str. 8, Berlin.}
+  , and Christian Oliver Paschereit%
+  \thanks{Professor, ISTA, Müller-Breslau-Str. 8, Berlin.}\\
+  {\normalsize\itshape
+   Technische Universität Berlin, Chair of Fluid Dynamics, Berlin, 10623, Germany}
+  \and
+  Ephraim J. Gutmark%
+   \thanks{Professor, Ohio Regents Eminent Scholar, UC, AIAA Fellow.}\\
+  {\normalsize\itshape
+  University of Cincinnati, Department of Aerospace Engineering, Cincinnati, OH 45220, USA}
+ }
+
+ % Data used by 'handcarry' option if invoked
+ \AIAApapernumber{2018-9999}
+ \AIAAconference{SciTech Forum, January 8 -- 12 2018, Kissimmee, USA}
+ \AIAAcopyright{\AIAAcopyrightD{2018}}
+
+ % Define commands to assure consistent treatment throughout document
+ \newcommand{\eqnref}[1]{(\ref{#1})}
+ \newcommand{\class}[1]{\texttt{#1}}
+ \newcommand{\package}[1]{\texttt{#1}}
+ \newcommand{\file}[1]{\texttt{#1}}
+ \newcommand{\BibTeX}{\textsc{Bib}\TeX}
+
+%\setlength{\belowcaptionskip}{-1pt}
+
+\begin{document}
+
+\maketitle
+
+%\begin{abstract}
+%Abstract text.
+%\end{abstract}
+
+%\section*{Nomenclature}
+%\begin{multicols}{2}
+%\begin{tabbing}
+%  XXX \= \kill% this line sets tab stop
+  %$d$ 		\> fuel hole diameter, mm \\
+  %$g$ 		\> air gap height, mm \\
+  %$v$ 		\> velocity, m/s \\
+  %$w$ 		\> main channel width, mm \\
+  %$\lambda$ \> laser wavelength, nm \\
+  %BR 		\> blowing ratio \\ 
+  %$\phi$	\> equivalence ratio \\
+  %\\
+  %\textit{Subscript}\\
+  %$j$ 		\> jet \\
+  %$c$ 		\> cross flow \\
+%\end{tabbing}
+%\end{multicols}
+
+\section{Introduction}
+The efficiency of existing combustion systems based on quasi-constant pressure deflagration could be significantly enhanced by switching to Pressure Gain Combustion (PGC) \cite{Jones2013}. Within the field of detonation-based combustion the Rotating Detonation Combustor (RDC) has gained an increasing amount of attention as the most practical PGC approach. The main feature of an RDC is its annular combustion chamber which is continuously filled with reactants, either premixed or injected separately and mixed locally. Once initiated, a detonation wave propagates within the annulus at velocities in the order of kilometers per second, enabling high operating frequencies, low exhaust flow pressure fluctuations, and a very simple and compact design without complicated valving. 
+
+In 2016, a new research group focusing on RDCs was established at Technical University Berlin (TUB) under the supervision of visiting Prof. Gutmark from the University of Cincinnati (UC) and hosted within the group of Prof. Paschereit from TUB. The ongoing research focuses on the fundamental aspects of improving the fuel-oxidizer mixing, ignition and detonation in order to achieve stable, thermally managed operation. 
+
+This work describes the ongoing investigations on RDC reactant mixing at TUB regarding their impact on RDC operation. During the passage of the high-pressure detonation wave significant feedback of combustion products into the supply plena can occur, leading to an inherent flashback risk for premixed injection. Thus it is preferred to inject the reactants separately and mixing becomes crucial for successful RDC operation \cite{Nordeen2015, Driscoll2016}. The mechanisms of mixing in a scaled model RDC cross section were investigated in a water tunnel through Planar Laser Induced Fluorescence (PLIF) of a dye jet issuing into a cross flow, with the goal of understanding and improving the mixing characteristics of the RDC. Based on those results, a new fuel injection scheme will be developed and its impact on the RDC operation will be studied in combustion experiments. 
+
+
+\section{Introduction to the RDC research group at TUB}
+A new research group at TUB, established in 2016 and focusing on RDCs, is supervised by Prof. Gutmark from UC and hosted within the Chair of Fluid Dynamics of Prof. Paschereit at TU Berlin, where various groups are already working on Constant Volume Combustion (CVC) in Pulsed Detonation Engines (PDEs) and in Shockless Explosion Combustors (SEC) in a collaborative research center. The group of Prof. Gutmark at UC is already among the leading institutions regarding RDC research in the world. Therefore, the project takes advantage of the combined capabilities of TUB and UC, creating the potential for significant enhancements of this technology in the future.
+
+The research at TUB focuses on the implementation of an RDC test rig with active cooling to reach thermally-managed operation for hydrogen and ethylene in the long term. This will include the development of improved and optimized fuel and air injection strategies in a water tunnel and in accompanying numerical studies and their implementation and their investigation in the RDC.
+
+\section{Ongoing RDC research}
+% ------------------- figure ----------------------------------------------------------------------------------------
+\begin{figure}[ht]
+\noindent\begin{minipage}[c]{0.48\textwidth}%0.48
+		\includegraphics[width=\textwidth]{./figures/RDC_setup.pdf}
+		\captionof{figure}{RDC operation and mixing scheme.}
+		\label{fig:exp_setup}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.48\textwidth}%0.48
+		%\includegraphics[width=\textwidth]{./figures/Jet_Trajectories}
+		%\captionof{figure}{Experimental setup at TUB.}
+		%\label{fig:traj}
+		\centering
+		Placeholder for test stand photo
+\end{minipage}
+\end{figure}
+
+
+%\begin{figure}[ht]
+%	\centering
+% 	\includegraphics[width=1\textwidth,trim=0 0 0 0,clip]{./figures/RDC_setup.pdf}
+% 	\caption{Experimental setup at TUB}
+% 	\label{fig:exp_setup}
+%\end{figure}
+
+A new RDC test stand is currently being commissioned at TUB. The RDC is based on a design developed by Shank \cite{Shank2012}, and has been extensively studied in combustion experiments at UC and also by other groups \cite{Naples2013, Paxson2015, Anand2016, St.George2015a, Driscoll2015, Pandiya2016}. The RDC was modified to allow for operation at smaller reactant flow rates than in its original design, without losing its modularity, as shown in Fig.~\ref{fig:exp_setup}. Various reactant injection schemes can be implemented by changing the fuel plate and the air injection area. The modified design also allows for easy exchangeability of the RDC center body and outer body, which enables the operation with different fuels by altering the detonation annulus width $\Delta$. The outer body can also be exchanged for a quartz version to allow for optical access to the reaction zone. The RDC is equipped with multiple sensor ports, of which twelve are placed in the detonation annulus and distributed radially and axially. Other three ports are radially distributed in the air injection gap to study pressure feedback into that zone, while the pressure and temperature in the supply plena are also monitored. The sensor ports are designed to accept different sensors, such as pressure probes or ionization probes to study the detonation velocity and pressure distribution in and around the reaction zone. A mobile flow control system based on sonic nozzles was designed and built for reactant supply to the RDC and is equipped for air flow rates up to $0.5$~kg/s and hydrogen flow rates up to 26~g/s.
+
+\begin{figure}[ht]
+	\centering
+ 	\includegraphics[width=1\textwidth,trim=0 0 0 0,clip]{./figures/Phi_Levels_Sharp.png}
+ 	\caption{Normalized fuel-to-air ratio for various blowing ratios and two different fuel hole positions: standard (a-d) and advanced (e-h).}
+ 	\label{fig:JIC}
+\end{figure}
+
+A first study focused on RDC reactant mixing. Therefore a scaled model cross section of the RDC was built and implemented in a water tunnel. A dye containing water jet issuing into a confined water crossflow was studied by means of high speed PLIF. The model was scaled to maintain the Reynolds numbers, the momentum ratio and the blocking ratio of the jet and the crossflow. Apart from the standard injection scheme also a configuration where the fuel hole is placed inside the air injection gap was studied. The results showed that the mixing quality is highly dependent on the jet-to-crossflow momentum ratio and whether the jet issues directly into the detonation annulus or if it is confined by the air injection gap. In Fig.\,\ref{fig:JIC} the dye concentration was normalized by the individual perfectly premixed value, denoted here as Normalized Fuel-to-Air Ratio (NFAR) and is shown for various blowing ratios (momentum ratio for equal densities) and the two different fuel hole positions. In the first hole position (Fig.\,\ref{fig:JIC}a-d) the jet behaves very similar to a traditional jet-in-crossflow (JIC) with the counter rotating vortex pair (CVP) identified as the main contributor to mixing. However, in the case of the jet impinging on the air injection gap confinement (Fig.\,\ref{fig:JIC}e-h), the CVP structure is destroyed, while the mixing is dominated by the lateral spreading of jet fluid due to the impingement. This also leads to a stronger entrainment of jet fluid into the recirculation zone downstream of the RDC outer wall corner, which could potentially lead to enhanced mixing in the RDC over the standard configuration. In the next step, an improved mixing scheme will be developed based on the water tunnel studies. It will then be implemented in the RDC and its impact on the operation will be studied.
+
+\section{Conclusion}
+A new research group concentrating on RDCs was established at TUB, in collaboration with UC. An RDC test stand is currently being commissioned. The joined forces of TUB and UC promise significant advancements in the field of PGC with the focus on thermally-managed RDC operation. First investigations of reactant mixing in a scaled model RDC cross section in a water tunnel revealed the impact of several parameters on the mixing quality. In a next step, an improved and optimized mixing scheme will be developed and implemented in an RDC and its impact on the operation will be studied.
+
+\section*{Acknowledgments}
+Financial support from the Einstein Foundation Berlin is gratefully acknowledged.
+
+% -------------------------------------------------------------------------------------------------------------------
+% Bibliography
+\bibliographystyle{aiaa}
+\bibliography{all_lit}
+
+\end{document}
+
+% - Release $Name:  $ -
