@@ -1,0 +1,8 @@
+*.log
+*.bbl
+*.blg
+*.pdf
+*.synctex.gz
+*.pptx
+*.png
+*.fig
